@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="All Test Suite">
-    <test verbose="2" preserve-order="true" name="C:/Users/Sarath/IdeaProjects/APIAutomationRestAssuredFramework">
+    <test verbose="2" preserve-order="true" name="APIAutomationRestAssuredFramework">
         <classes>
-            <class name="com.APITesting.payloads.Pojos.Booking">
+            <class name="com.APITesting.tests.crud.TCCreateBooking">
                 <methods>
-                    <include name="CreateBookingTC1"/>
+                    <include name="PositiveTC1"/>
                 </methods>
             </class>
         </classes>

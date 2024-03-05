@@ -1,85 +1,89 @@
 package com.APITesting.payloads.Pojos;
 
 import com.google.gson.Gson;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
-import io.restassured.response.Response;
-import io.restassured.response.ValidatableResponse;
-import io.restassured.specification.RequestSpecification;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-import static org.assertj.core.api.Assertions.*;
 
 public class Booking {
 
-    RequestSpecification requestSpecification;
+    @SerializedName("firstname")
+    @Expose
+    private String firstname;
+    @SerializedName("lastname")
+    @Expose
+    private String lastname;
+    @SerializedName("totalprice")
+    @Expose
+    private Integer totalprice;
+    @SerializedName("depositpaid")
+    @Expose
+    private Boolean depositpaid;
+    @SerializedName("bookingdates")
+    @Expose
+    private Bookingdates bookingdates;
+    @SerializedName("additionalneeds")
+    @Expose
+    private String additionalneeds;
 
-    ValidatableResponse validatableResponse;
+    public String getFirstname() {
+        return firstname;
+    }
 
-    @Test
-    public void CreateBookingTC1() {
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
 
-//PayloAD
+    public String getLastname() {
+        return lastname;
+    }
 
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
 
-        CreateBookingSimple Booking = new CreateBookingSimple();
-        Booking.setFirstname("Keerthana");
+    public Integer getTotalprice() {
+        return totalprice;
+    }
 
-        Booking.setLastname("Aravind");
+    public void setTotalprice(Integer totalprice) {
+        this.totalprice = totalprice;
+    }
 
-        Booking.setTotalprice(7000);
+    public Boolean getDepositpaid() {
+        return depositpaid;
+    }
 
-        Booking.setDepositpaid(true);
+    public void setDepositpaid(Boolean depositpaid) {
+        this.depositpaid = depositpaid;
+    }
 
-        Bookingdates bookingdate = new Bookingdates();
-        bookingdate.setCheckin("2024-03-19");
-        bookingdate.setCheckout("2024-03-27");
+    public Bookingdates getBookingdates() {
+        return bookingdates;
+    }
 
-        Booking.setBookingdates(bookingdate);
+    public void setBookingdates(Bookingdates bookingdates) {
+        this.bookingdates = bookingdates;
+    }
 
-        Booking.setAdditionalneeds("Breakfast");
+    public String getAdditionalneeds() {
+        return additionalneeds;
+    }
 
-        System.out.println(Booking);
+    @Override
+    public String toString() {
+        return "CreateBookingSimple{" +
+                "firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", totalprice=" + totalprice +
+                ", depositpaid=" + depositpaid +
+                ", bookingdates=" + bookingdates +
+                ", additionalneeds='" + additionalneeds + '\'' +
+                '}';
+    }
 
-        //Object--->JSON
-
-        Gson gson = new Gson();
-
-        String jsonStringBooking = gson.toJson(Booking);
-
-
-        System.out.println(jsonStringBooking);
-
-        requestSpecification = RestAssured.given();
-
-        requestSpecification.baseUri("https://restful-booker.herokuapp.com");
-        requestSpecification.basePath("booking");
-        requestSpecification.contentType(ContentType.JSON);
-        requestSpecification.body(jsonStringBooking).log().all();
-
-        Response response = requestSpecification.when().post();
-
-        //JSON---->Object
-        String jsonResponseString = response.asString();
-
-        validatableResponse = response.then().log().all();
-        validatableResponse.statusCode(200);
-
-        BookingResponse bookingresponseObject = gson.fromJson(jsonResponseString, BookingResponse.class);
-
-        String expectedFirstName = "Keerthana"; // Replace with the expected first name
-        String expectedLastName = "Aravind"; // Replace with the expected last name
-
-
-        Assert.assertEquals(expectedFirstName, bookingresponseObject.getBooking().getFirstname());
-        Assert.assertEquals(expectedLastName, bookingresponseObject.getBooking().getLastname());
-
-
-        assertThat(bookingresponseObject.getBookingid()).isNotNull();
-        assertThat(bookingresponseObject.getBooking().getFirstname()).isNotNull();
-        assertThat(bookingresponseObject.getBooking().getFirstname()).isEqualTo("Keerthana");
-
+    public void setAdditionalneeds(String additionalneeds) {
+        this.additionalneeds = additionalneeds;
     }
 
 

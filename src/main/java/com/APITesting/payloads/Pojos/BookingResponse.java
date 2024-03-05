@@ -12,7 +12,7 @@ public class BookingResponse {
     private Integer bookingid;
     @SerializedName("booking")
     @Expose
-    private CreateBookingSimple booking;
+    private Booking booking;
 
     public Integer getBookingid() {
         return bookingid;
@@ -22,11 +22,11 @@ public class BookingResponse {
         this.bookingid = bookingid;
     }
 
-    public CreateBookingSimple getBooking() {
+    public Booking getBooking() {
         return booking;
     }
 
-    public void setBooking(CreateBookingSimple booking) {
+    public void setBooking(Booking booking) {
         this.booking = booking;
     }
 
