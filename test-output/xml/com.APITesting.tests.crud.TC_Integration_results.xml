@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuite name="APIAutomationRestAssuredFramework"
-           tests="1"
+           tests="3"
            failures="0"
            errors="0"
            skipped="0"
-           time="3.472">
+           time="5.347">
     <properties></properties>
 
 
 
             <testcase
+                name="UpdateBooking"
+                time="0.050"
+                classname="com.APITesting.tests.crud.TC_Integration">
+            </testcase>
+            <testcase
+                name="DeleteBooking"
+                time="0.009"
+                classname="com.APITesting.tests.crud.TC_Integration">
+            </testcase>
+            <testcase
                 name="CreateBooking"
-                time="3.472"
+                time="5.288"
                 classname="com.APITesting.tests.crud.TC_Integration">
             </testcase>
 </testsuite>
