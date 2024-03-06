@@ -3,11 +3,15 @@ package com.APITesting.modules;
 import com.APITesting.payloads.Pojos.request.Auth;
 import com.APITesting.payloads.Pojos.request.Booking;
 import com.APITesting.payloads.Pojos.request.Bookingdates;
+import com.APITesting.payloads.Pojos.response.BookingResponse;
 import com.github.javafaker.Faker;
 import com.google.gson.Gson;
+import io.qameta.allure.internal.shadowed.jackson.core.JsonProcessingException;
+import io.qameta.allure.internal.shadowed.jackson.databind.ObjectMapper;
+
 
 public class PayloadManager {
-
+    ObjectMapper objectMapper;
     // JAVA -> JSON
 
     public String createPayloadGSON() {
@@ -41,8 +45,20 @@ public class PayloadManager {
 
     }
 
-    public void UpdatePayload() {
-
+    public String UpdatePayload() throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Booking booking = new Booking();
+        booking.setFirstname("SARATH");
+        booking.setLastname("T V");
+        booking.setTotalprice(199);
+        booking.setDepositpaid(true);
+        booking.setAdditionalneeds("Breakfast, lunch");
+        Bookingdates bookingdates = new Bookingdates();
+        bookingdates.setCheckin("2024-04-01");
+        bookingdates.setCheckout("2024-04-10");
+        booking.setBookingdates(bookingdates);
+        String payload = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(booking);
+        return payload;
 
     }
 
@@ -60,4 +76,21 @@ public class PayloadManager {
         return jsonStringAuth;
     }
 
+    public BookingResponse JsonToObject(String jsonString) throws JsonProcessingException {
+        objectMapper = new ObjectMapper();
+        BookingResponse bookingRespons = objectMapper.readValue(jsonString, BookingResponse.class);
+        return bookingRespons;
+    }
+    public Booking JsonToObjectPUT(String jsonString) throws JsonProcessingException {
+        objectMapper = new ObjectMapper();
+        Booking bookingRespons = objectMapper.readValue(jsonString, Booking.class);
+        return bookingRespons;
+    }
+
+
 }
+
+    
+
+
+
