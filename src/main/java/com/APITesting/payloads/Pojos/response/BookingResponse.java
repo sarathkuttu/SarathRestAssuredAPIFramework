@@ -1,6 +1,7 @@
-package com.APITesting.payloads.Pojos;
+package com.APITesting.payloads.Pojos.response;
 
 
+import com.APITesting.payloads.Pojos.request.Booking;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

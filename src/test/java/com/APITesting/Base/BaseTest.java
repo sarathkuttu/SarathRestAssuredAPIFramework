@@ -5,6 +5,7 @@ import com.APITesting.endpoints.APIConstants;
 import com.APITesting.modules.PayloadManager;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
@@ -20,9 +21,9 @@ public class BaseTest {
     public ValidatableResponse validatableResponse;
 
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
 
-    public void SetConfig(){
+    public void SetConfig() {
         payloadManager = new PayloadManager();
         assertActions = new AssertActions();
         //requestSpecification = RestAssured.given();
@@ -30,17 +31,23 @@ public class BaseTest {
         requestSpecification = new RequestSpecBuilder()
 
                 .setBaseUri(APIConstants.BASE_URL)
-                .addHeader("Content-Type","application/json")
+                .addHeader("Content-Type", "application/json")
                 .build().log().all();
-
-
-
-
 
 
     }
 
+    public String getToken(){
 
+        requestSpecification = RestAssured.given().baseUri(APIConstants.BASE_URL).basePath("/auth");
+        String payload = payloadManager.SetToken();
+        response = requestSpecification.contentType(ContentType.JSON)
+                .body(payload)
+                .when().post();
+
+        jsonPath = new JsonPath(response.asString());
+        return jsonPath.getString("token");
+    }
 
 
 }

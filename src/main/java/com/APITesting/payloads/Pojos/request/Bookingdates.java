@@ -1,4 +1,4 @@
-package com.APITesting.payloads.Pojos;
+package com.APITesting.payloads.Pojos.request;
 
 
 import com.google.gson.annotations.Expose;
