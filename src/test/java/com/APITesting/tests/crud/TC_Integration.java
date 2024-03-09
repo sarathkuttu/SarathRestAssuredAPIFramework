@@ -53,6 +53,8 @@ public class TC_Integration extends BaseTest {
         System.out.println("bookingIdPojo-->" +bookingIdPojo);
 
         assertThat(bookingid).isNotNull().isNotEmpty();
+
+        System.out.println("CREATE BOOKING IS WORKING FINE");
     }
 
     //Update the Booking with Token and Booking ID
@@ -73,6 +75,12 @@ public class TC_Integration extends BaseTest {
         Booking bookingResponse = payloadManager.JsonToObjectPUT(response.asString());
         assertThat(bookingResponse.getFirstname()).isEqualTo("SARATH");
         assertThat(bookingResponse.getLastname()).isEqualTo("T V");
+        assertThat(bookingResponse.getDepositpaid()).isEqualTo(true);
+        assertThat(bookingResponse.getBookingdates().getCheckin()).isNotNull();
+        assertThat(bookingResponse.getBookingdates().getCheckin()).isNotNull();
+
+        System.out.println("UPDATE BOOKING IS WORKING FINE");
+
     }
 
     //DeleteBooking
@@ -81,5 +89,16 @@ public class TC_Integration extends BaseTest {
 
         System.out.println("DeleteBooking token--->" + token);
         System.out.println("DeleteBooking Bookingid--->" + bookingid);
+
+        requestSpecification.basePath(APIConstants.CREATE_UPDATE_BOOKING_URL+"/"+bookingid).cookie("token",token);
+       // validatableResponse = RestAssured.given().spec(requestSpecification).auth().basic("admin","password123")
+        //        .when().delete().then().log().all();
+
+        validatableResponse = RestAssured.given().spec(requestSpecification).auth().oauth2(token)
+                .when().delete().then().log().all();
+
+        assertThat(validatableResponse.statusCode(201));
+
+        System.out.println("DELETE BOOKING IS WORKING FINE");
     }
 }

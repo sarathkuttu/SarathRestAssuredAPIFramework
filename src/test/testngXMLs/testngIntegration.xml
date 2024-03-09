@@ -5,7 +5,6 @@
         <classes>
             <class name="com.APITesting.tests.crud.TC_Integration">
                 <methods>
-                    <include name="GetToken"/>
                     <include name="CreateBooking"/>
                     <include name="UpdateBooking"/>
                     <include name="DeleteBooking"/>
