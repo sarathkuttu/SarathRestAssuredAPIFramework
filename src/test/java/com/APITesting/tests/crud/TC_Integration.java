@@ -44,13 +44,13 @@ public class TC_Integration extends BaseTest {
         //Direct Extraction from json path
         bookingid = jsonPath.getString("bookingid");
 
-       //Booking Response Class
-        BookingResponse bookingResponse  = payloadManager.JsonToObject(response.asString());
+        //Booking Response Class
+        BookingResponse bookingResponse = payloadManager.JsonToObject(response.asString());
         bookingIdPojo = bookingResponse.getBookingid().toString();
 
         System.out.println("Booking ID--->" + jsonPath.getString("bookingid"));
-        System.out.println("JSON BOOKING ID-->" +bookingid);
-        System.out.println("bookingIdPojo-->" +bookingIdPojo);
+        System.out.println("JSON BOOKING ID-->" + bookingid);
+        System.out.println("bookingIdPojo-->" + bookingIdPojo);
 
         assertThat(bookingid).isNotNull().isNotEmpty();
 
@@ -83,15 +83,36 @@ public class TC_Integration extends BaseTest {
 
     }
 
+//    @Test(groups = "P0", dependsOnMethods = {"CreateBooking"})
+//    public void UpdatePatchBooking() throws JsonProcessingException {
+//        assertThat("SARATH").isEqualTo("SARATH");
+//        System.out.println("UpdateBooking token--->" + token);
+//        System.out.println("UpdateBooking Bookingid--->" + bookingid);
+//        requestSpecification.basePath(APIConstants.CREATE_UPDATE_BOOKING_URL + "/" + bookingid);
+//
+//        response = RestAssured.given().spec(requestSpecification)
+//                .cookie("token", token)
+//                .when().body(payloadManager.UpdatePatchPayload()).patch();
+//
+//        validatableResponse = response.then().log().all();
+//        // validatableResponse.body("firstname", Matchers.is("SARATH"));
+//
+//        Booking bookingResponse = payloadManager.JsonToObjectPUT(response.asString());
+//        assertThat(bookingResponse.getFirstname()).isEqualTo("KEERTHANA");
+//        assertThat(bookingResponse.getLastname()).isEqualTo("ARAVIND");
+//
+//
+//        System.out.println("PATCH BOOKING IS WORKING FINE");
+//
+//    }
+
     //DeleteBooking
     @Test(groups = "P0", dependsOnMethods = {"UpdateBooking"})
     public void DeleteBooking() {
 
-        System.out.println("DeleteBooking token--->" + token);
-        System.out.println("DeleteBooking Bookingid--->" + bookingid);
 
-        requestSpecification.basePath(APIConstants.CREATE_UPDATE_BOOKING_URL+"/"+bookingid).cookie("token",token);
-       // validatableResponse = RestAssured.given().spec(requestSpecification).auth().basic("admin","password123")
+        requestSpecification.basePath(APIConstants.CREATE_UPDATE_BOOKING_URL + "/" + bookingid).cookie("token", token);
+        // validatableResponse = RestAssured.given().spec(requestSpecification).auth().basic("admin","password123")
         //        .when().delete().then().log().all();
 
         validatableResponse = RestAssured.given().spec(requestSpecification).auth().oauth2(token)
@@ -100,5 +121,21 @@ public class TC_Integration extends BaseTest {
         assertThat(validatableResponse.statusCode(201));
 
         System.out.println("DELETE BOOKING IS WORKING FINE");
+    }
+
+    @Test(groups = "P0", dependsOnMethods = {"DeleteBooking"})
+    public void DeleteBookingGet() {
+
+
+        requestSpecification.basePath(APIConstants.CREATE_UPDATE_BOOKING_URL + "/" + bookingid);
+
+        response = RestAssured.given().spec(requestSpecification)
+                .when().get();
+
+        validatableResponse = response.then().log().all();
+
+        assertThat(validatableResponse.statusCode(404));
+
+        System.out.println("DELETEEGET BOOKING IS WORKING FINE");
     }
 }

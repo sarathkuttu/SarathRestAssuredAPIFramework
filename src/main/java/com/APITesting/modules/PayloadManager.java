@@ -11,7 +11,11 @@ import io.qameta.allure.internal.shadowed.jackson.databind.ObjectMapper;
 
 
 public class PayloadManager {
+
+
     ObjectMapper objectMapper;
+
+
     // JAVA -> JSON
 
     public String createPayloadGSON() {
@@ -62,6 +66,17 @@ public class PayloadManager {
 
     }
 
+    public String UpdatePatchPayload() throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Booking booking = new Booking();
+        booking.setFirstname("KEERTHANA");
+        booking.setLastname("ARAVIND");
+        String payload = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(booking);
+        return payload;
+
+    }
+
+
     public String SetToken() {
 
         Auth auth = new Auth();
@@ -81,11 +96,16 @@ public class PayloadManager {
         BookingResponse bookingRespons = objectMapper.readValue(jsonString, BookingResponse.class);
         return bookingRespons;
     }
+
+
+
     public Booking JsonToObjectPUT(String jsonString) throws JsonProcessingException {
         objectMapper = new ObjectMapper();
         Booking bookingRespons = objectMapper.readValue(jsonString, Booking.class);
         return bookingRespons;
     }
+
+
 
 
 }
